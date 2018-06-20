@@ -1,6 +1,5 @@
-package main;
+package uk.gov.dvla.osg.rpd.config.gui;
 
-import config.NetworkConfig;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,7 +48,9 @@ public class MainformController {
         } else {
             lblMessage.setText("Save Error!");
         }
-        
+       
+        lblMessage.setOpacity(1);
+       
        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(4), lblMessage);
        fadeTransition.setDelay(Duration.seconds(4));
        fadeTransition.setFromValue(0.99);

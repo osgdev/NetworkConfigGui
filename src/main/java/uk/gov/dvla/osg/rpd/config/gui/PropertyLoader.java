@@ -1,4 +1,4 @@
-package config;
+package uk.gov.dvla.osg.rpd.config.gui;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

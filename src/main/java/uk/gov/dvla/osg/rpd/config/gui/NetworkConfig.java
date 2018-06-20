@@ -1,4 +1,4 @@
-package config;
+package uk.gov.dvla.osg.rpd.config.gui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

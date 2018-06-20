@@ -1,4 +1,4 @@
-package main;
+package uk.gov.dvla.osg.rpd.config.gui;
 
 import java.io.IOException;
 
@@ -6,11 +6,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import config.NetworkConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -21,7 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/Mainform.fxml"));
         primaryStage.setTitle("RPD Network Config");
-        // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/vault.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/folder.png")));
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -38,6 +38,7 @@ public class Main extends Application {
             NetworkConfig.init(inputFile);
             
             launch(args);
+            
         } catch (Exception e) {
             LOGGER.fatal(ExceptionUtils.getStackTrace(e));
         }
