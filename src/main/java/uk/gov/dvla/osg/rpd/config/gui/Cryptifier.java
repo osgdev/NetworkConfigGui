@@ -1,6 +1,8 @@
 package uk.gov.dvla.osg.rpd.config.gui;
 
-import java.security.*;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -60,8 +62,7 @@ public class Cryptifier {
      * @throws IllegalBlockSizeException 
      */
     private static byte[] doCrypto(byte[] inputBytes, int encryptMode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-
-        Key secretKey = new SecretKeySpec(KEY.getBytes(), ALGORITHM);
+        SecretKeySpec secretKey = new SecretKeySpec(KEY.getBytes(), ALGORITHM);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         byte[] iv = new byte[cipher.getBlockSize()];
         IvParameterSpec ivParams = new IvParameterSpec(iv);
