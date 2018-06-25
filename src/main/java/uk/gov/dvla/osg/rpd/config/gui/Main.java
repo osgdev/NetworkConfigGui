@@ -27,7 +27,16 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        String type = "JCEKS";
+        String name = "HumptyDumpty.jks";
+        String password = "James";
+        
+        JavaKeyStore jks = new JavaKeyStore(type, name, password);
+        jks.getInstance();
+        jks.loadKeyStore();
+        System.out.println("DONE!");
+        System.exit(1);
         try {
             if (args.length != 1) {
                 LOGGER.fatal("Incorrect number of args, Usage: {file}.jar {properties_filepath}");

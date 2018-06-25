@@ -27,24 +27,20 @@ public class JavaKeyStore {
      * @param keyStorePassword  the password used to check the integrity of the keystore, the password used to unlock the keystore
      * @param keyStoreName the file from which the keystore is loaded
      */
-    JavaKeyStore(String keyStoreType, String keyStorePassword, String keyStoreName) {
-        this.keyStoreName = keyStoreName;
+    JavaKeyStore(String keyStoreType, String keyStoreName, String keyStorePassword) {
         this.keyStoreType = keyStoreType;
+        this.keyStoreName = keyStoreName;
         this.keyStorePassword = keyStorePassword;
     }
 
     /**
-     * Stores this keystore and protects its integrity with the given password.
+     * Creates a keystore of the specified type and name and protects its integrity with the given password.
      * @throws KeyStoreException if the keystore has not been initialized (loaded)
      * @throws CertificateException  if any of the certificates included in the keystore data could not be stored
      * @throws NoSuchAlgorithmException  if the appropriate data integrity algorithm could not be found
      * @throws IOException if there was an I/O problem with data
      */
     void createEmptyKeyStore() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
-        if(keyStoreType == null || keyStoreType.isEmpty()) {
-            keyStoreType = KeyStore.getDefaultType();
-        }
-        keyStore = KeyStore.getInstance(keyStoreType);
         //load
         char[] pwdArray = keyStorePassword.toCharArray();
         keyStore.load(null, pwdArray);
@@ -60,8 +56,9 @@ public class JavaKeyStore {
      * @throws IOException if there is an I/O or format problem with the keystore data, if a password is required but not given, or if the given password was incorrect. If the error is due to a wrong password, the cause of the IOException should be an UnrecoverableKeyException
      * @throws CertificateException if any of the certificates in the keystore could not be loaded
      * @throws NoSuchAlgorithmException if the algorithm used to check the integrity of the keystore cannot be found
+     * @throws KeyStoreException 
      */
-    void loadKeyStore() throws IOException, CertificateException, NoSuchAlgorithmException {
+    void loadKeyStore() throws IOException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
         char[] pwdArray = keyStorePassword.toCharArray();
         try (FileInputStream stream = new FileInputStream(keyStoreName)) {
             keyStore.load(stream, pwdArray);
@@ -69,7 +66,18 @@ public class JavaKeyStore {
     }
 
     /**
-     * Saves a keystore Entry under the specified alias.
+     * Creates a keystore object of the specified type. 
+     * @throws KeyStoreException if no Provider supports a KeyStoreSpi implementation for the specified type.
+     */
+    void getInstance() throws KeyStoreException {
+        if(keyStoreType == null || keyStoreType.isEmpty()) {
+            keyStoreType = KeyStore.getDefaultType();
+        }
+        keyStore = KeyStore.getInstance(keyStoreType);
+    }
+
+    /**
+     * Saves a keystore Entry under the specified alias. The protection parameter is used to protect the Entry. 
      * @param alias save the keystore Entry under this alias
      * @param secretKeyEntry the Entry to save
      * @param protectionParameter the ProtectionParameter used to protect the Entry, which may be null
@@ -80,6 +88,7 @@ public class JavaKeyStore {
     }
 
     /**
+     * Gets a keystore Entry for the specified alias with the specified protection parameter.
      * @param alias the keystore Entry for this alias
      * @return the keystore Entry for the specified alias, or null if there is no such entry
      * @throws UnrecoverableEntryException  if the specified ProtectionParameter were insufficient or invalid
